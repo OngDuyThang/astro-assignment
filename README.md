@@ -3,6 +3,8 @@
 This is a content-driven blog application built using Astro
 , a modern framework for building fast, optimized websites using your favorite frontend components and Markdown content.
 
+🔗 **Live Demo:** [https://astro-assignment-khaki.vercel.app/](https://astro-assignment-khaki.vercel.app/)
+
 ## 🚀 Project Structure
 
 ```text
