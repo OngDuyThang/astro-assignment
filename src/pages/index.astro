@@ -1,0 +1,38 @@
+---
+import BlogCard from "../components/BlogCard.astro";
+import Link from "../components/Link.astro";
+import MainLayout from "../layouts/MainLayout.astro";
+import { filterBlogs } from "../utils";
+
+const blogs = await Astro.glob("../markdowns/*.md");
+const filteredBlogs = filterBlogs(blogs, {
+  limit: 3,
+});
+---
+
+<MainLayout title="Home" description="Home page description">
+  <section class="container about" aria-label="About Me">
+    <div class="content">
+      <h2 class="h2">Welcome to My Blog 👋</h2>
+      <p>
+        I'm Thang, and I write about tips and sharing knowledge on software
+        development.<br />
+        This is where I document my journey to make your development life easier.<br
+        />
+        Thanks for stopping by!
+      </p>
+      <Link href="/about" icon={{ name: "about" }} text="About Me" filled />
+    </div>
+    <img src="/images/avatar.png" alt="My image" width="200" height="330" />
+  </section>
+  <section class="container" aria-label="New Blogs">
+    <h2 class="h2">Latest Blogs</h2>
+    <div class="post-container">
+      {
+        filteredBlogs.map((blog: any) => (
+          <BlogCard frontmatter={blog.frontmatter} />
+        ))
+      }
+    </div>
+  </section>
+</MainLayout>

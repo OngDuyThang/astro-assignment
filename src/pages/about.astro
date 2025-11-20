@@ -1,0 +1,29 @@
+---
+import Link from "../components/Link.astro";
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout title="About" description="About page description">
+  <section class="container about" aria-label="About Me">
+    <div class="content">
+      <h2 class="h2">About me 🙋</h2>
+      <p>
+        Full-stack developer specializing in the JavaScript/Python technology
+        stack.<br />
+        Proven ability to deliver applications using frameworks like React, Express,
+        NestJS, and FastAPI.<br />
+        My work focuses on creating seamless user experiences and optimizing server-side
+        performance.<br />
+        I am a continuous learner committed to adopting best practices in software
+        development, testing, and deployment.
+      </p>
+      <Link
+        href="mailto:19522214@gm.uit.edu.vn"
+        text="Contact Me"
+        icon={{ name: "mail" }}
+        filled
+      />
+    </div>
+    <img src="/images/avatar.png" alt="My image" width="200" height="330" />
+  </section>
+</MainLayout>

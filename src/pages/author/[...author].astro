@@ -1,0 +1,41 @@
+---
+import BlogCard from "../../components/BlogCard.astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+import { filterBlogs, slugify } from "../../utils";
+
+export async function getStaticPaths() {
+  const allBlogs = await Astro.glob("../../markdowns/*.md");
+  const filteredBlogs = filterBlogs(allBlogs);
+  const allAuthors = [
+    ...new Set(
+      filteredBlogs.map((blog: any) => blog.frontmatter.author).flat()
+    ),
+  ];
+
+  return allAuthors.map((author: any) => {
+    const authorBlogs = filteredBlogs.filter(
+      (blog: any) => blog.frontmatter.author === author
+    );
+    return {
+      params: { author: slugify(author) },
+      props: {
+        authorName: author,
+        blogs: authorBlogs,
+      },
+    };
+  });
+}
+
+const { blogs, authorName } = Astro.props;
+---
+
+<MainLayout title="Author blogs" description="Author blogs page description">
+  <section class="container" aria-label={`Blogs by ${authorName}`}>
+    <h2 class="h2">
+      Blogs by <span style="color: hsl(var(--accent))">{authorName}</span>
+    </h2>
+    <div class="post-container">
+      {blogs.map((blog: any) => <BlogCard frontmatter={blog.frontmatter} />)}
+    </div>
+  </section>
+</MainLayout>

@@ -1,0 +1,43 @@
+---
+import BlogCard from "../../components/BlogCard.astro";
+import CategoryNav from "../../components/CategoryNav.astro";
+import Pagination from "../../components/Pagination.astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+import { filterBlogs } from "../../utils";
+
+export async function getStaticPaths({ paginate }: any) {
+  const allBlogs = await Astro.glob("../../markdowns/*.md");
+  const filteredBlogs = filterBlogs(allBlogs);
+
+  return paginate(filteredBlogs, {
+    pageSize: 3,
+  });
+}
+
+const { page } = Astro.props as any;
+---
+
+<MainLayout
+  title="Blogs by pagination"
+  description="Blogs by pagination page description"
+>
+  <section class="container" aria-label="New Blogs">
+    <h2 class="h2">
+      New Blogs (page <span style="color: hsl(var(--accent))"
+        >{page.currentPage}</span
+      >)
+    </h2>
+    <div class="post-container">
+      {
+        page.data.map((blog: any) => (
+          <BlogCard frontmatter={blog.frontmatter} />
+        ))
+      }
+    </div>
+    <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
+  </section>
+  <aside class="container" aria-label="Blog categories">
+    <h3 class="h3">Categories</h3>
+    <CategoryNav showCount={true} />
+  </aside>
+</MainLayout>

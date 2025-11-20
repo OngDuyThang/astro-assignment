@@ -1,0 +1,42 @@
+---
+import BlogCard from "../../components/BlogCard.astro";
+import { categories } from "../../constansts";
+import MainLayout from "../../layouts/MainLayout.astro";
+import { filterBlogs, slugify } from "../../utils";
+
+export async function getStaticPaths() {
+  return categories.map((category: any) => {
+    return {
+      params: { category: slugify(category) },
+      props: { name: category },
+    };
+  });
+}
+
+const { category } = Astro.params;
+const { name } = Astro.props;
+
+const allBlogs = await Astro.glob("../../markdowns/*.md");
+const filteredBlogs = filterBlogs(allBlogs);
+const categoryBlogs = filteredBlogs.filter(
+  (blog: any) => slugify(blog.frontmatter.category) === category
+);
+---
+
+<MainLayout
+  title="Category blogs"
+  description="Category blogs page description"
+>
+  <section class="container" aria-label={`Blogs about ${name}`}>
+    <h2 class="h2">
+      Blogs about <span style="color: hsl(var(--accent))">{name}</span>
+    </h2>
+    <div class="post-container">
+      {
+        categoryBlogs.map((blog: any) => (
+          <BlogCard frontmatter={blog.frontmatter} />
+        ))
+      }
+    </div>
+  </section>
+</MainLayout>

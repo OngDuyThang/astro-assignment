@@ -1,0 +1,44 @@
+---
+import BlogHeader from "../components/BlogHeader.astro";
+import CategoryNav from "../components/CategoryNav.astro";
+import RelatedBlogs from "../components/RelatedBlogs.astro";
+import { filterBlogs } from "../utils";
+import MainLayout from "./MainLayout.astro";
+
+const { frontmatter } = Astro.props;
+const { title, description, date, category, author, image } = frontmatter;
+
+const allBlogs = await Astro.glob("../markdowns/*.md");
+const filteredBlogs = filterBlogs(allBlogs, {
+  sortByDate: false,
+});
+const relatedBlogs = filteredBlogs
+  .filter(
+    (blog: any) =>
+      blog.frontmatter.category.toLowerCase() === category.toLowerCase()
+  )
+  .slice(0, 3);
+---
+
+<MainLayout {title} {description}>
+  <BlogHeader {title} {description} {date} {category} {image} {author} />
+  <div class="post-content">
+    <div class="content">
+      <slot />
+    </div>
+    <div class="sidebar">
+      <aside class="container" aria-label="Blog categories">
+        <h3 class="h3">Categories</h3>
+        <CategoryNav />
+      </aside>
+      {
+        relatedBlogs.length > 0 && (
+          <aside class="container" aria-label="Related posts">
+            <h3 class="h3">Related Posts</h3>
+            <RelatedBlogs {relatedBlogs} />
+          </aside>
+        )
+      }
+    </div>
+  </div>
+</MainLayout>

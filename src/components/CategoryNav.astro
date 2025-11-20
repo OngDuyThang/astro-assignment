@@ -1,0 +1,32 @@
+---
+import { filterBlogs, slugify } from "../utils";
+
+const allBlogs = await Astro.glob("../markdowns/*.md");
+const filteredBlogs = filterBlogs(allBlogs);
+const allCategories = filteredBlogs
+  .map((category: any) => category.frontmatter.category.toLowerCase())
+  .flat();
+
+const filteredCats = allCategories.reduce((acc: any, category: any) => {
+  const value = acc[category] || 0;
+
+  return {
+    ...acc,
+    [category]: value + 1,
+  };
+}, {});
+
+const { showCount } = Astro.props;
+---
+
+<ul class="categories">
+  {
+    Object.entries(filteredCats).map(([key, val]) => (
+      <li>
+        <a class="badge" href={`/category/${slugify(key)}`}>
+          {key} {showCount && `(${val})`}
+        </a>
+      </li>
+    ))
+  }
+</ul>

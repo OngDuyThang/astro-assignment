@@ -2,6 +2,9 @@
   "name": "astro-assignment",
   "type": "module",
   "version": "0.0.1",
+  "browserslist": [
+    "defaults"
+  ],
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -9,6 +12,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.15.4"
+    "astro": "^5.15.4",
+    "astro-icon": "^1.1.5",
+    "postcss": "^8.5.6",
+    "postcss-preset-env": "^10.4.0"
   }
 }

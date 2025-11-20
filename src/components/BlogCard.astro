@@ -1,0 +1,39 @@
+---
+import { Image } from "astro:assets";
+import { formatDate, slugify } from "../utils";
+import Link from "./Link.astro";
+
+const { frontmatter } = Astro.props;
+const { title, date, author, image, description, category, url } = frontmatter;
+---
+
+<article class="card">
+  <small>
+    <a href={`/category/${slugify(category)}`} class="badge">{category}</a>
+  </small>
+  <a href={url} aria-hidden="true" tabindex="-1">
+    <Image
+      src={image?.src || "/images/placeholder.png"}
+      alt={image?.alt || "placeholder image"}
+      width="400"
+      height="250"
+      format="webp"
+      fit="cover"
+      quality={80}
+    />
+  </a>
+  <div class="content">
+    <div>
+      <h3 class="h3">
+        <a href={url}>{title}</a>
+      </h3>
+      <small>
+        by <a href={`/author/${slugify(author)}`}>{author}</a> • {
+          formatDate(date)
+        }
+      </small>
+    </div>
+    <p style={{ fontSize: "1.25rem" }}>{description}</p>
+    <Link href={url} text="Read blog" filled />
+  </div>
+</article>

@@ -1,0 +1,46 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  text: string;
+  href: string;
+  icon?: { name: string; position?: "left" | "right" };
+  variant?: "primary" | "secondary";
+  filled?: boolean;
+  bordered?: boolean;
+  classes?: string;
+}
+
+const {
+  text,
+  href,
+  icon,
+  variant = "primary",
+  filled = false,
+  bordered = false,
+  classes,
+  ...rest
+} = Astro.props;
+
+if (icon) {
+  icon.position = icon?.position || "left";
+}
+---
+
+<a
+  href={href}
+  class:list={["link", variant, classes, { filled, bordered }]}
+  {...rest}
+>
+  {
+    icon && icon.position === "left" && (
+      <Icon name={icon.name} height="32" width="32" />
+    )
+  }
+  <span>{text}</span>
+  {
+    icon && icon.position === "right" && (
+      <Icon name={icon.name} height="32" width="32" />
+    )
+  }
+</a>

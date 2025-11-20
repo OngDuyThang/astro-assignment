@@ -1,0 +1,22 @@
+---
+import Link from "../components/Link.astro";
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout title="404" description="Not found page description">
+  <div
+    class="container"
+    style={{
+      display: "grid",
+      placeItems: "center",
+      textAlign: "center",
+      gap: "var(--space-sm)",
+    }}
+  >
+    <div style={{ display: "grid", gap: "var(--space-xs)" }}>
+      <h2 class="h2">Sorry, something went wrong ⚠️</h2>
+      <p>We seem to have an internal issue…</p>
+    </div>
+    <Link href="/" text="Go Back" icon={{ name: "back" }} filled />
+  </div>
+</MainLayout>

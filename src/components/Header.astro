@@ -1,0 +1,42 @@
+---
+import { Icon } from "astro-icon/components";
+import { undefined } from "astro:schema";
+import Link from "./Link.astro";
+
+const navData = Object.freeze([
+  {
+    name: "Blog",
+    path: "/blog",
+    icon: "blog",
+  },
+  {
+    name: "About",
+    path: "/about",
+    icon: "about",
+  },
+]);
+---
+
+<nav aria-label="Primary">
+  <div class="navbar">
+    <a href="/" class="logomark" aria-label="Go home">
+      <Icon name="logomark" width="60" height="60" />
+    </a>
+    <ul>
+      {
+        navData.map((item) => (
+          <li>
+            <Link
+              text={item.name}
+              href={item.path}
+              icon={{ name: item.icon }}
+              {...(item.path.split("/")[1] === Astro.url.pathname.split("/")[1]
+                ? { "aria-current": "page" }
+                : undefined)}
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</nav>
